@@ -1,0 +1,13 @@
+//Method to access nth element of a linked list
+    int accesselement(int)
+    {
+        struct node *add;
+        add=head;
+        for(int i=1;i<cursize();i++)
+        {
+            add=add->head;
+        }
+        return add->data;
+    }
+
+    for(int j=cursize();j>0;j--)

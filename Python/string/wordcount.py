@@ -1,0 +1,1 @@
+print(input("string").count(" ")+1)
