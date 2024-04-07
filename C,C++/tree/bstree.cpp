@@ -102,61 +102,44 @@ class Tree
             return 0;     
         }
 
-        int recrecdel(struct node *temp)
+        
+        struct node *recdel(struct node *temp,int num)
         {
-            if(temp==NULL)
+            if(temp==nullptr)
             {
-                return 1;
+                return temp;
             }
-            recrecdel(temp->left);    
-            recrecdel(temp->right);    
-            free(temp);
-            return 1;            
-        }
-
-        int recdel(struct node *temp,int num)
-        {
-            int loc;
-            printf("\n Type 0 to traverse left or 1 to traverse right or 2 to delete");
-            scanf("%d",&loc);
-
-            
-
-            if(loc==0)
+            else if(num<temp->data)
             {
-                if(temp->left==NULL)
-                {
-                    return 0;
-                }
-                prev=temp;
-                temp=temp->left;
+                temp->left = recdel(temp->left,num);
+            }          
+            else if(num>temp->data)
+            {
+                temp->right = recdel(temp->right,num);
             }
-            else if(loc==1)
+            else
             {
-                if(temp->right==NULL)
+                if (temp->left == nullptr) 
                 {
-                    return 0;
-                }            
-                prev=temp;
-                temp=temp->right;
-            }           
-            else if(loc==2) 
-            {
-                if(prev->left==temp)
+                    struct node *temp2 = temp->right;
+                    free(temp);
+                    return temp2;
+                } 
+                else if (temp->right == nullptr) 
                 {
-                    prev->left=NULL;
+                    struct node *temp2 = temp->left;
+                    free(temp);
+                    return temp2;
                 }
-                else if(prev->right==temp)
+                node *temp2 = temp->right;
+                while (temp2->left != nullptr) 
                 {
-                    prev->right=NULL;
+                    temp2 = temp2->left;
                 }
-                else if(prev==temp)
-                {
-                    prev=NULL;
-                }
-                return(recrecdel(temp));
-            }
-            return(recdel(temp,prev));
+                temp->data = temp2->data;
+                temp->right = recdel(temp->right, temp2->data);
+            }   
+            return temp;
         }
 
     public:
@@ -170,7 +153,7 @@ class Tree
         int preorder();
         int postorder();
         int search(int);
-        int deletion(int);
+        void deletion(int);
 };
 
 int main()
@@ -214,14 +197,8 @@ int main()
             case(6):
                 printf("\n Enter the number to delete:");
                 scanf("%d",&num);
-                if(t1.deletion(num))
-                {
-                    printf("The element has been deleted");
-                }
-                else
-                {
-                    printf("Reached end of tree");
-                }
+                t1.deletion(num);
+                printf("The element has been deleted");
                 break;     
             case(7):
                 exit(0);
@@ -274,7 +251,7 @@ int Tree::search(int num)
 }
 
 //Method for deletion
-int Tree::deletion(int num)
+void Tree::deletion(int num)
 {
-    return recdel(root,root);
+    recdel(root,num);
 }
