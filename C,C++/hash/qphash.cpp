@@ -39,7 +39,8 @@ int main()
         printf("\n1. Insert \n2. Delete \n3. Search \n4. Display \n5. Exit");
         scanf("%d",&choice);
 
-        switch(choice) {
+        switch(choice) 
+        {
             case 1:
                 printf("Enter the number ");
                 scanf("%d",&num);
@@ -124,17 +125,15 @@ int hash::insert(int num)
     }
     else
     {
-        int i=1;
-        int cur=target+eq(1);
-        while(1)
+        int cur;
+        for(int i=1;i<=100;i++)
         {
+            cur=target+eq(i);
             if(arr[cur]==0 || arr[cur]==-1)
             {
                 arr[cur]=num;
                 return 1;
             }
-            cur=target+eq(i);
-            i++;
         }
         return 0;
     }
@@ -167,19 +166,15 @@ int hash::deletion(int num)
     }
     else
     {
-        int cur=(target+1)%size;
-        while(cur!=target) 
+        int cur;
+        for(int i=1;i<=100;i++)
         {
+            cur=target+eq(i);
             if(arr[cur]==num)
             {
                 arr[cur]=-1;
                 return 1;
             }
-            if(arr[cur]==0)
-            {
-                return 0;
-            }
-            cur=(cur+1)%size;            
         }
         return 0;
     }
@@ -195,18 +190,14 @@ int hash::search(int num)
     }
     else
     {
-        int cur=(target+1)%size;
-        while(cur!=target) 
+        int cur;
+        for(int i=1;i<=100;i++)
         {
+            cur=target+eq(i);
             if(arr[cur]==num)
             {
                 return 1;
             }
-            if(arr[cur]==0)
-            {
-                return 0;
-            }
-            cur=(cur+1)%size;            
         }
         return 0;
     }
