@@ -64,10 +64,12 @@ int main()
             case 1:
                 printf("Enter the number ");
                 scanf("%d",&num);
-                if(h.insert(num)) {
+                if(h.insert(num)) 
+                {
                     printf("\n Inserted successfully.");
                 }
-                else {
+                else 
+                {
                     printf("\n Insertion unsuccessful.");
                 }
                 break;
@@ -99,7 +101,7 @@ int main()
                 break;
 
             case 4:
-                return 0;
+                exit(0);
                 break;
             
             case 5:
@@ -122,7 +124,7 @@ int hash::insert(int num)
         arr[target]=newnode;  
         return 1;      
     }
-    else
+    else 
     {
         struct Node *temp = arr[target];
         while(temp -> next != NULL) 

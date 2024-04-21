@@ -1,7 +1,12 @@
-//Implementation of linear probing hash adt using an array and linked lists
+//Implementation of quadratic probing hash adt using an array and linked lists
 #include <stdio.h>
 #include <stdlib.h>
 #define size 100
+
+int eq(int x)
+{
+    return (x*x)%size;
+}
 
 class hash
 {
@@ -119,15 +124,17 @@ int hash::insert(int num)
     }
     else
     {
-        int cur=(target+1)%size;
-        while(cur!=target) 
+        int i=1;
+        int cur=target+eq(1);
+        while(1)
         {
             if(arr[cur]==0 || arr[cur]==-1)
             {
                 arr[cur]=num;
                 return 1;
             }
-            cur=(cur+1)%size;
+            cur=target+eq(i);
+            i++;
         }
         return 0;
     }
