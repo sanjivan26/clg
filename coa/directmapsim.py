@@ -1,59 +1,83 @@
-import random
 import math as m
+import streamlit as st
+import pandas as pd
+
+dispsize = 5
 
 def dec(x):
-    return int(x,2)
+    return int(str(x),2)
 
 def nbit(x,n):
     i = x %(10**n-1)
     return i%10
 
+#data from question
+byteoffset=8
 
+#for l1 cache
+l1linesize = 9#digits      #64 bytes
+l1lines = 128
+
+#for victim cache
+vlines = 4#digits
+
+#for l2 cache
+l2lines = 256
+
+#main memory size
+mainsize = 16#digits
+
+#defining the l1 cache
 class dmcache:
-    def __init__(lines,linesize):
-        dmcache.offsetlimit=8
-        dmcache.setlimit=lines
-        dmcache.taglimit=linesize
-        dmcache.datablock=[[0,0,0]for i in range(dmcache.setlimit)] #validity, tag, data
+    def __init__(self,lines,linesize,vlines):
+        self.offsetlimit=m.log2(byteoffset * linesize)
+        self.setlimit=m.log2(lines)
+        self.taglimit=mainsize / (linesize * m.log2(lines))
+        self.datablock=[[0,0,0]for i in range(lines)] #validity, tag, data
+        #defining the victim cache
+        self.vdatablock=[[0,0,0]for i in range(vlines)] #validity, tag, data
+        self.vcur = -1
 
-    def fetch(address):
-        #dmcache.addlen=m.log2(dmcache.taglimit)+m.log2(dmcache.setlimit)+m.log2(dmcache.offsetlimit)
-        address=int(input("Enter address of data"))
-        offset=address%(m.log2(dmcache.offsetlimit))
-        set=address%(m.log2(dmcache.setlimit))
-        tag=address%(m.log2(dmcache.taglimit))
+    def fetch(self,address):
+        offset = self.address%self.offsetlimit
+        address//self.offsetlimit
+        set = address%self.setlimit
+        address//self.setlimit
+        tag = address%self.taglimit
+        decset = dec(set)
 
-        #hit
-        if dmcache.datablock[0][dec(set)%dmcache.setlimit]==1 and dmcache.datablock[1][dec(set)%dmcache.setlimit]==tag:
-            return nbit(dmcache.datablock[1][dec(set)%dmcache.setlimit],offset)
-        
-        #miss => fetch
+        if self.datablock[decset][0]==1:
+            if decset<3:
+                df = pd.DataFrame(self.datablock[0:dispsize],columns = ["validity", "tag", "data"],index = ["Previous columns"*(decset-1),"Required column","Next columns"*(dispsize - decset)])
+            elif decset>self.setlimit-3:
+                df = pd.DataFrame(self.datablock[self.setlimit-dispsize:self.setlimit],columns = ["validity", "tag", "data"],index = ["Previous columns"*(self.setlimit-dispsize+1),"Required column","Next columns"*(self.setlimit-decset)])
+            else:
+                df = pd.DataFrame(l1.datablock[decset-2:decset+2],columns = ["validity", "tag", "data"],index = ["Previous columns","Previous columns","Required column","Next columns","Next columns"])
+                
+            if self.datablock[decset][1]==tag:
+                #cache hit
+                st.write("The tag in given address was found in the datablock of the cache")
+                st.write(df)
+                st.write("The data in given address was : ",self.datablock[decset][2])
+                return 1
+            else:
+                #cache miss
+                st.write("The tag in given address was not found in the datablock of the cache")
+                st.write(df)
+                return 0
         else:
-             #to write code to fetch from cache lvl 2
-             print()
+            #cache miss
+            st.write("The tag in given address was not found in the datablock of the cache")
+            st.write(df)
+            return 0
 
-class main:
-    def __init__(cache,linewidth,wordlines,bitlines):
-        cache.linewidth=linewidth
-        cache.wordlines=wordlines
-        cache.bitlines=bitlines
-        cache.datamatrix = [[random.choice([1,0])for i in range(bitlines)]for i in range(wordlines)]
-
-        cache.wordlinelimit=m.log2(wordlines)
-        cache.linenumberlimit=m.log2(bitlines/linewidth)
-        cache.taglimit=m.log2(wordlines)
-
-    def get_address():
-        cache.addlen=cache.taglimit+cache.linenumberlimit+cache.wordlinelimit
-        cache.address[cache.addlen]=int(input("Enter address of data"))
+l1=dmcache(l1lines,l1linesize,vlines)
+df = pd.DataFrame(l1.datablock[5:10],columns = ["validity", "tag", "data"],index = ["Previous columns","Previous columns","Required column","Next columns","Next columns"])
+print(df)
 
 
 
-linewidth=int(input("Enter linewidth (ideally a power of 2)"))
-wordlines=int(input("Enter number of rows in cache (ideally a power of 2)"))
-bitlines=int(input("Enter number of columns in cache (ideally a multiple of linewidth)"))
 
-
-cache=dmcache(linewidth,wordlines,bitlines)
-cache.get_address()
-
+#user interface
+#st.title("Cache levels simulation")
+#st.number_input("Enter the address here",min_value=int("0"*mainsize),max_value=int('1'*mainsize))

@@ -161,6 +161,7 @@ class Tree
             root=NULL;
         }
 
+
         int insert(char);
         int inorder();
         int preorder();

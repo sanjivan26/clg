@@ -1,3 +1,2 @@
-def decify(x):
-    return int(x,2)
-print(decify((input())))
+s='0010000001000000000'
+print(s[-16:-9])
