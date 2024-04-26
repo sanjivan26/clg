@@ -31,7 +31,7 @@ int main()
     while(1) 
     {
 
-        printf("\n1. Insert vertex \n2. Delete \n3. Search \n4. Display \n5.Exit");
+        printf("\n1. Insert vertex \n2. Delete \n3. Search \n4. Display \n5. Exit");
         scanf("%d",&choice);
 
         switch(choice) 

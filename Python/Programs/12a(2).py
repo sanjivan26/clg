@@ -26,7 +26,7 @@ def CleanTexttoList(text):
     for i in text.split():
         l.append(i.strip())
     return l
-gram_file = open('GramFile.txt')
+gram_file = open('example.txt')
 wordList = CleanTexttoList(gram_file.read())
 UnigramProbCheck(wordList)
 BigramProbCheck(wordList)

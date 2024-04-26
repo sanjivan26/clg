@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define size 100
+#define lf 0.7
 
 int eq(int x)
 {
@@ -12,6 +13,8 @@ class hash
 {
     private:
         int arr[size];
+        int count;
+        int maxsize;
 
     public:
         hash()
@@ -19,12 +22,15 @@ class hash
             for(int i=0;i<=size;i++)
             {
                 arr[i]=0;
+                maxsize = size; 
             }
+            count = 0;
         }
         int insert(int);
         void disp();
         int deletion(int);
         int search(int);
+        void rehash();
 };
 
 
@@ -120,7 +126,8 @@ int hash::insert(int num)
     int target=num%size;
     if(arr[target]==0 || arr[target]==-1)
     {
-        arr[target]=num;  
+        arr[target]=num; 
+        count++; 
         return 1;      
     }
     else
@@ -162,6 +169,7 @@ int hash::deletion(int num)
     if(arr[target]==num)
     {
         arr[target]=-1;  
+        rehash();
         return 1;      
     }
     else
@@ -200,5 +208,21 @@ int hash::search(int num)
             }
         }
         return 0;
+    }
+}
+
+//Rehashing!!!
+void hash::rehash()
+{
+    if(count/size>lf)
+    {
+        maxsize*=2;
+        for(int i=0;i<size;i++)
+        {
+            if(arr[i]!=0)
+            {
+
+            }
+        }
     }
 }
