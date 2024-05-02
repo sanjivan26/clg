@@ -235,7 +235,8 @@ void doublink::insbeg(int num)
     newnode->next=head;
     if(head!=NULL)
     {
-        head->prev=newnode;        
+        head->prev=newnode;
+        
     }
     else
     {
@@ -253,12 +254,13 @@ void doublink::insend(int num)
     if(tail!=NULL)
     {
         tail->next=newnode;
+
     }
     else
     {
         head=newnode;
     }
-    tail=newnode;
+    tail=newnode;  
 }
 
 //Method to insert a value
@@ -304,11 +306,9 @@ int doublink::inspos(int num,int pos)
 	    newnode->next = temp->next;
 	    temp->next = newnode;
         newnode->prev=temp;
-        if(newnode->next !=NULL)
-        {
-            temp=newnode->next;
-            temp->prev=newnode;
-        }   
+        temp=newnode->next;
+        temp->prev=newnode;
+    
         return 1;
     }
 }

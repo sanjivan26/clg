@@ -1,7 +1,6 @@
 //Implementing a graph with an adjacency matrix
 #include <stdio.h>
 #include <stdlib.h>
-#include "q.h"
 #define size 10
 
 class amgraph
@@ -20,7 +19,6 @@ class amgraph
         int deletevertex(int);
         int display();
         int search(int,int);
-        int bfs();
 
 };
 
@@ -33,7 +31,7 @@ int main()
     while(1) 
     {
 
-        printf("\n1. Insert vertex \n2. Delete \n3. Search \n4. Display \n5. Exit");
+        printf("\n1. Insert vertex \n2. Delete \n3. Search \n4. Display \n5.Exit");
         scanf("%d",&choice);
 
         switch(choice) 
@@ -91,10 +89,6 @@ int main()
                 break;
             
             case 5:
-                g.bfs();
-                break;
-
-            case 6 :
                 exit(0);
                 break;
         }
@@ -222,37 +216,4 @@ int amgraph::search(int v1,int v2)
     {
         return(am[target1][target2]);
     }
-}
-
-//Method for bfs
-int amgraph::bfs()
-{
-    if(vertices==0)
-    {
-        printf("Graph is empty");
-        return 0;
-    }
-    queue visited;
-    queue tbc;
-    tbc.enqueue(vertices);
-
-    while(tbc.isempty()==0)
-    {
-        int var = tbc.dequeue();
-        visited.enqueue(var);
-        printf("%d is connected to ",vlist[var]);
-        for(int j=0;j<vertices;j++)
-        {
-            if(am[vertices][j]==1)
-            {
-                printf("%d ",vlist[j]);
-                if(tbc.search(j)==0 && visited.search(j)==0)
-                {
-                    tbc.enqueue(j);
-                }
-            }
-        }
-        printf("\n");
-    }
-    return 1;
 }
