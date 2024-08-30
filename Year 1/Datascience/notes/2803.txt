@@ -1,0 +1,6 @@
+precision: Percentage of correct instances in classified data (percent of true positives among positives)
+recall: Percentage of correct instances (percent of true positives among all relevant instances(true positives + false negatives))
+accuracy: macro precision 
+
+false positives are dangerous and should be nullified
+

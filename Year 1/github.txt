@@ -1,0 +1,10 @@
+git add -A
+git commit -m"one line message"
+git commit Press esc then :wq 
+git push
+
+If modified in cloud and not in local
+git pull 
+
+To view edited or staged files  
+git status 
